@@ -41,7 +41,6 @@ public class LocaleLanguage {
             this.e = System.currentTimeMillis();
         } catch (IOException var7) {
         }
-
     }
 
     static LocaleLanguage a() {
@@ -63,7 +62,7 @@ public class LocaleLanguage {
     }
 
     private String c(String var1) {
-        String var2 = (String)this.d.get(var1);
+        String var2 = this.d.get(var1);
         return var2 == null ? var1 : var2;
     }
 

@@ -5,131 +5,131 @@ import org.apache.commons.lang3.StringUtils;
 
 public final class ChatDeserializer {
 
-    public static boolean getType(JsonObject var0, String var1) {
-        if (!g(var0, var1)) {
+    public static boolean isJsonArray(JsonObject jsonObject, String key) {
+        if (!hasKey(jsonObject, key)) {
             return false;
         } else {
-            return var0.get(var1).isJsonArray();
+            return jsonObject.get(key).isJsonArray();
         }
     }
 
-    public static boolean g(JsonObject var0, String var1) {
-        if (var0 == null) {
+    public static boolean hasKey(JsonObject jsonObject, String key) {
+        if (jsonObject == null) {
             return false;
         } else {
-            return var0.get(var1) != null;
+            return jsonObject.get(key) != null;
         }
     }
 
-    public static String a(JsonElement var0, String var1) {
-        if (var0.isJsonPrimitive()) {
-            return var0.getAsString();
+    public static String asString(JsonElement jsonElement, String key) {
+        if (jsonElement.isJsonPrimitive()) {
+            return jsonElement.getAsString();
         } else {
-            throw new JsonSyntaxException("Expected " + var1 + " to be a string, was " + getType(var0));
+            throw new JsonSyntaxException("Expected " + key + " to be a string, was " + getType(jsonElement));
         }
     }
 
-    public static String h(JsonObject var0, String var1) {
-        if (var0.has(var1)) {
-            return a(var0.get(var1), var1);
+    public static String asString(JsonObject jsonObject, String key) {
+        if (jsonObject.has(key)) {
+            return asString(jsonObject.get(key), key);
         } else {
-            throw new JsonSyntaxException("Missing " + var1 + ", expected to find a string");
+            throw new JsonSyntaxException("Missing " + key + ", expected to find a string");
         }
     }
 
-    public static boolean b(JsonElement var0, String var1) {
-        if (var0.isJsonPrimitive()) {
-            return var0.getAsBoolean();
+    public static boolean asBoolean(JsonElement jsonElement, String key) {
+        if (jsonElement.isJsonPrimitive()) {
+            return jsonElement.getAsBoolean();
         } else {
-            throw new JsonSyntaxException("Expected " + var1 + " to be a Boolean, was " + getType(var0));
+            throw new JsonSyntaxException("Expected " + key + " to be a Boolean, was " + getType(jsonElement));
         }
     }
 
-    public static boolean a(JsonObject var0, String var1, boolean var2) {
-        return var0.has(var1) ? b(var0.get(var1), var1) : var2;
+    public static boolean asBoolean(JsonObject jsonObject, String key, boolean bDefault) {
+        return jsonObject.has(key) ? asBoolean(jsonObject.get(key), key) : bDefault;
     }
 
-    public static float getType(JsonElement var0, String var1) {
-        if (var0.isJsonPrimitive() && var0.getAsJsonPrimitive().isNumber()) {
-            return var0.getAsFloat();
+    public static float getType(JsonElement jsonElement, String key) {
+        if (jsonElement.isJsonPrimitive() && jsonElement.getAsJsonPrimitive().isNumber()) {
+            return jsonElement.getAsFloat();
         } else {
-            throw new JsonSyntaxException("Expected " + var1 + " to be a Float, was " + getType(var0));
+            throw new JsonSyntaxException("Expected " + key + " to be a Float, was " + getType(jsonElement));
         }
     }
 
-    public static float a(JsonObject var0, String var1, float var2) {
-        return var0.has(var1) ? getType(var0.get(var1), var1) : var2;
+    public static float asFloat(JsonObject jsonObject, String key, float fDefault) {
+        return jsonObject.has(key) ? getType(jsonObject.get(key), key) : fDefault;
     }
 
-    public static int f(JsonElement var0, String var1) {
-        if (var0.isJsonPrimitive() && var0.getAsJsonPrimitive().isNumber()) {
-            return var0.getAsInt();
+    public static int asInteger(JsonElement jsonElement, String key) {
+        if (jsonElement.isJsonPrimitive() && jsonElement.getAsJsonPrimitive().isNumber()) {
+            return jsonElement.getAsInt();
         } else {
-            throw new JsonSyntaxException("Expected " + var1 + " to be a Int, was " + getType(var0));
+            throw new JsonSyntaxException("Expected " + key + " to be a Int, was " + getType(jsonElement));
         }
     }
 
-    public static int m(JsonObject var0, String var1) {
-        if (var0.has(var1)) {
-            return f(var0.get(var1), var1);
+    public static int asInteger(JsonObject jsonObject, String key) {
+        if (jsonObject.has(key)) {
+            return asInteger(jsonObject.get(key), key);
         } else {
-            throw new JsonSyntaxException("Missing " + var1 + ", expected to find a Int");
+            throw new JsonSyntaxException("Missing " + key + ", expected to find a Int");
         }
     }
 
-    public static int a(JsonObject var0, String var1, int var2) {
-        return var0.has(var1) ? f(var0.get(var1), var1) : var2;
+    public static int asInteger(JsonObject jsonObject, String key, int iDefault) {
+        return jsonObject.has(key) ? asInteger(jsonObject.get(key), key) : iDefault;
     }
 
-    public static JsonObject asJsonObject(JsonElement jsonElement, String object) {
+    public static JsonObject asJsonObject(JsonElement jsonElement, String key) {
         if (jsonElement.isJsonObject()) {
             return jsonElement.getAsJsonObject();
         } else {
-            throw new JsonSyntaxException("Expected " + object + " to be a JsonObject, was " + getType(jsonElement));
+            throw new JsonSyntaxException("Expected " + key + " to be a JsonObject, was " + getType(jsonElement));
         }
     }
 
-    public static JsonArray m(JsonElement var0, String var1) {
-        if (var0.isJsonArray()) {
-            return var0.getAsJsonArray();
+    public static JsonArray asJsonArray(JsonElement jsonelement, String key) {
+        if (jsonelement.isJsonArray()) {
+            return jsonelement.getAsJsonArray();
         } else {
-            throw new JsonSyntaxException("Expected " + var1 + " to be a JsonArray, was " + getType(var0));
+            throw new JsonSyntaxException("Expected " + key + " to be a JsonArray, was " + getType(jsonelement));
         }
     }
 
-    public static JsonArray t(JsonObject var0, String var1) {
-        if (var0.has(var1)) {
-            return m(var0.get(var1), var1);
+    public static JsonArray asJsonArray_fromObj(JsonObject jsonObject, String key) {
+        if (jsonObject.has(key)) {
+            return asJsonArray(jsonObject.get(key), key);
         } else {
-            throw new JsonSyntaxException("Missing " + var1 + ", expected to find a JsonArray");
+            throw new JsonSyntaxException("Missing " + key + ", expected to find a JsonArray");
         }
     }
 
     public static String getType(JsonElement jsonElement) {
 
-        String generic = StringUtils.abbreviateMiddle(String.valueOf(jsonElement), "...", 10);
+        String values = StringUtils.abbreviateMiddle(String.valueOf(jsonElement), "...", 10);
 
         if (jsonElement == null) {
             return "null (missing)";
         } else if (jsonElement.isJsonNull()) {
             return "null (json)";
         } else if (jsonElement.isJsonArray()) {
-            return "an array (" + generic + ")";
+            return "an array (" + values + ")";
         } else if (jsonElement.isJsonObject()) {
-            return "an object (" + generic + ")";
+            return "an object (" + values + ")";
         } else {
             if (jsonElement.isJsonPrimitive()) {
 
                 JsonPrimitive primitive = jsonElement.getAsJsonPrimitive();
 
                 if (primitive.isNumber()) {
-                    return "a number (" + generic + ")";
+                    return "a number (" + values + ")";
                 }
                 if (primitive.isBoolean()) {
-                    return "a boolean (" + generic + ")";
+                    return "a boolean (" + values + ")";
                 }
             }
-            return generic;
+            return values;
         }
     }
 }

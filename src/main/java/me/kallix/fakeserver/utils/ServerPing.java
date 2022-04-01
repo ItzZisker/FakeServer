@@ -67,7 +67,7 @@ public class ServerPing {
             }
 
             if (motdJson.has("favicon")) {
-                serverPing.setFavicon(ChatDeserializer.h(motdJson, "favicon"));
+                serverPing.setFavicon(ChatDeserializer.asString(motdJson, "favicon"));
             }
             return serverPing;
         }
@@ -119,7 +119,7 @@ public class ServerPing {
 
                 JsonObject jsonobject = ChatDeserializer.asJsonObject(jsonelement, "version");
 
-                return new ServerPing.ServerData(ChatDeserializer.h(jsonobject, "name"), ChatDeserializer.m(jsonobject, "protocol"));
+                return new ServerPing.ServerData(ChatDeserializer.asString(jsonobject, "name"), ChatDeserializer.asInteger(jsonobject, "protocol"));
             }
 
             public JsonElement serialize_N(ServerPing.ServerData serverData) {
@@ -128,6 +128,7 @@ public class ServerPing {
 
                 jsonobject.addProperty("name", serverData.getData());
                 jsonobject.addProperty("protocol", serverData.getProtocol());
+
                 return jsonobject;
             }
 
@@ -173,11 +174,11 @@ public class ServerPing {
             public ServerPing.ServerPingPlayerSample deserialize_N(JsonElement jsonelement) throws JsonParseException {
 
                 JsonObject jsonobject = ChatDeserializer.asJsonObject(jsonelement, "players");
-                ServerPing.ServerPingPlayerSample playerSample = new ServerPing.ServerPingPlayerSample(ChatDeserializer.m(jsonobject, "max"), ChatDeserializer.m(jsonobject, "online"));
+                ServerPing.ServerPingPlayerSample playerSample = new ServerPing.ServerPingPlayerSample(ChatDeserializer.asInteger(jsonobject, "max"), ChatDeserializer.asInteger(jsonobject, "online"));
 
-                if (ChatDeserializer.getType(jsonobject, "sample")) {
+                if (ChatDeserializer.isJsonArray(jsonobject, "sample")) {
 
-                    JsonArray jsonarray = ChatDeserializer.t(jsonobject, "sample");
+                    JsonArray jsonarray = ChatDeserializer.asJsonArray_fromObj(jsonobject, "sample");
 
                     if (jsonarray.size() > 0) {
 
@@ -188,8 +189,8 @@ public class ServerPing {
                             JsonObject profileObject = ChatDeserializer.asJsonObject(jsonarray.get(k), "player[" + k + "]");
 
                             profiles[k] = new GameProfile(
-                                    UUID.fromString(ChatDeserializer.h(profileObject, "id")),
-                                    ChatDeserializer.h(profileObject, "name"));
+                                    UUID.fromString(ChatDeserializer.asString(profileObject, "id")),
+                                    ChatDeserializer.asString(profileObject, "name"));
                         }
                         playerSample.setProfiles(profiles);
                     }
